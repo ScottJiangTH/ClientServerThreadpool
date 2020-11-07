@@ -30,50 +30,42 @@ public class Server {
 				System.out.println("Server is now running.");
 				socketIn = new BufferedReader(new InputStreamReader(aSocket.getInputStream()));
 				socketOut = new PrintWriter(aSocket.getOutputStream(), true);
-				checkPalindrome ();
+				checkPalindrome();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		try {
 			socketIn.close();
 			socketOut.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	public void checkPalindrome () {
+	public void checkPalindrome() {
 		String line = null;
 		while (true) {
 			try {
 				line = socketIn.readLine();
-				if (line.equals("QUIT")) {
-					line = "Good Bye!";
-					socketOut.println(line);
-					break;
-				}
-				int i = 0;
-				int len = line.length();
-				while (i < len/2 && line.charAt(i) == line.charAt(len-i-1)) {
-					i++;
-				}
-				if (i >= len/2)
-					socketOut.println(line + " is a Palindrome.");
-				else
-					socketOut.println(line + " is not a Palindrome.");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} //reading from the client
-			
-			
+			}
+
+			int i = 0;
+			int len = line.length();
+			while (i < len / 2 && line.charAt(i) == line.charAt(len - i - 1)) {
+				i++;
+			}
+			if (i >= len / 2)
+				socketOut.println(line + " is a Palindrome.");
+			else
+				socketOut.println(line + " is not a Palindrome.");
 		}
 	}
-	
+
 	public static void main(String[] args) throws IOException {
 
 		Server myServer = new Server();
