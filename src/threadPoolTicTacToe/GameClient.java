@@ -32,7 +32,7 @@ public class GameClient {
 		String line = "";
 		String response = "";
 		
-		while (!line.equals("QUIT")) {
+		while (!(line=="QUIT")) {
 			try {
 				response = socketIn.readLine();  //read response form the socket
 				System.out.println(response);

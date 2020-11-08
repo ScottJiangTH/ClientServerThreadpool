@@ -21,7 +21,7 @@ public class GameServer {
 	public GameServer() {
 		try {
 			serverSocket = new ServerSocket(9898);
-			pool = Executors.newFixedThreadPool(2);
+			pool = Executors.newFixedThreadPool(6);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

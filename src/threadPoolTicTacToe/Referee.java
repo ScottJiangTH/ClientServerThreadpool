@@ -1,5 +1,7 @@
 package threadPoolTicTacToe;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 /**
  * 
  * Initiates the game by displaying the board, sets opponent relationships and calls the 
@@ -15,7 +17,11 @@ public class Referee {
 	private Player xPlayer;
 	private Player oPlayer;
 	private Board board;
-	
+	private PrintWriter socketOut1;
+	private PrintWriter socketOut2;
+	private BufferedReader socketIn1;
+	private BufferedReader socketIn2;
+
 	/**
 	 * Sets opponent of Player objects to each other, display Board object, and initiate the 
 	 * game from Player with mark X.
@@ -24,10 +30,15 @@ public class Referee {
 	public void runTheGame() throws IOException {
 		xPlayer.setOpponent(oPlayer);
 		oPlayer.setOpponent(xPlayer);
-		System.out.println("Referee started the game...");
+		xPlayer.setSocket(socketOut1, socketIn1);
+		oPlayer.setSocket(socketOut2, socketIn2);
+		board.setSocket(socketOut1, socketOut2);
+		socketOut1.println("Referee started the game...");
+		socketOut2.println("Referee started the game...");
 		board.display();
 		xPlayer.play();
-		System.out.println("Game Ended ...");
+		socketOut1.println("Game Ended ...");
+		socketOut2.println("Game Ended ...");
 	}
 
 	/**
@@ -52,6 +63,14 @@ public class Referee {
 	 */
 	public void setxPlayer(Player xPlayer) {
 		this.xPlayer = xPlayer;
+	}
+
+	public void setSocket(PrintWriter socketOut1, BufferedReader socketIn1, PrintWriter socketOut2,
+			BufferedReader socketIn2) {
+		this.socketOut1 = socketOut1;
+		this.socketIn1 = socketIn1;
+		this.socketOut2 = socketOut2;
+		this.socketIn2 = socketIn2;
 	}
 
 }

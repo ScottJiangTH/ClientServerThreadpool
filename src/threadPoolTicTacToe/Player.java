@@ -1,7 +1,7 @@
 package threadPoolTicTacToe;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintWriter;
 /**
  * 
  * Provides a command line user interface to prompt current Player to enter cell
@@ -19,6 +19,8 @@ public class Player {
 	private Board board;
 	private Player opponent;
 	private char mark;
+	private PrintWriter socketOut;
+	private BufferedReader socketIn;
 
 	public Player(String name, char letterX) {
 		this.name = name;
@@ -35,11 +37,14 @@ public class Player {
 		makeMove();
 		board.display();
 		if (board.xWins()) {
-			System.out.println("THE GAME IS OVER: whoever using X is the winner!");
+			socketOut.println("THE GAME IS OVER: whoever using X is the winner!");
+			opponent.socketOut.println("THE GAME IS OVER: whoever using X is the winner!");
 		} else if (board.oWins()) {
-			System.out.println("THE GAME IS OVER: whoever using O is the winner!");
+			socketOut.println("THE GAME IS OVER: whoever using O is the winner!");
+			opponent.socketOut.println("THE GAME IS OVER: whoever using O is the winner!");
 		} else if (board.isFull()) {
-			System.out.println("THE GAME IS OVER: it's a tie, you all lose!!!!!!");
+			socketOut.println("THE GAME IS OVER: it's a tie, you all lose!!!!!!");
+			opponent.socketOut.println("THE GAME IS OVER: it's a tie, you all lose!!!!!!");
 		} else {
 			opponent.play();
 		}
@@ -52,23 +57,21 @@ public class Player {
 	 * @throws IOException since this method uses BufferReader
 	 */
 	public void makeMove() throws IOException {
-		BufferedReader stdin;
-		stdin = new BufferedReader(new InputStreamReader(System.in));
 
 		int row = -1;
 		int col = -1;
-		System.out.print(name + ", what row should your next " + mark + " be placed in?\n");
-		String rowString = stdin.readLine();
+		socketOut.print(name + ", what row should your next " + mark + " be placed in?\n");
+		String rowString = socketIn.readLine();
 		row = Integer.parseInt(rowString);
-		System.out.print(name + ", what column should your next " + mark + " be placed in?\n");
-		String colString = stdin.readLine();
+		socketOut.print(name + ", what column should your next " + mark + " be placed in?\n");
+		String colString = socketIn.readLine();
 		col = Integer.parseInt(colString);
 
 		if (row < 0 || col < 0 || row > 2 || col > 2) {
-			System.out.println("Be serious, enter integer 0 - 2, let's try again\n");
+			socketOut.println("Be serious, enter integer 0 - 2, let's try again\n");
 			makeMove();
 		} else if (board.getMark(row, col) != ' ') {
-			System.out.println("Cheating not allowed! Let's enter again\n");
+			socketOut.println("Cheating not allowed! Let's enter again\n");
 			makeMove();
 		} else {
 			board.addMark(row, col, mark);
@@ -93,6 +96,11 @@ public class Player {
 	public void setBoard(Board theBoard) {
 		this.board = theBoard;
 
+	}
+
+	public void setSocket(PrintWriter socketOut, BufferedReader socketIn) {
+		this.socketOut = socketOut;
+		this.socketIn = socketIn;
 	}
 
 }

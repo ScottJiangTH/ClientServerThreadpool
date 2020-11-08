@@ -71,6 +71,7 @@ public class Game implements Constants, Runnable {
 			oPlayer.setBoard(this.theBoard);
 
 			theRef = new Referee();
+			theRef.setSocket(socketOut1, socketIn1, socketOut2, socketIn2);
 			theRef.setBoard(this.theBoard);
 			theRef.setoPlayer(oPlayer);
 			theRef.setxPlayer(xPlayer);
