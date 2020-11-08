@@ -28,11 +28,11 @@ public class Referee {
 	 * @throws IOException from play() method of Player class.
 	 */
 	public void runTheGame() throws IOException {
-		xPlayer.setOpponent(oPlayer);
-		oPlayer.setOpponent(xPlayer);
 		xPlayer.setSocket(socketOut1, socketIn1);
 		oPlayer.setSocket(socketOut2, socketIn2);
 		board.setSocket(socketOut1, socketOut2);
+		xPlayer.setOpponent(oPlayer);
+		oPlayer.setOpponent(xPlayer);
 		socketOut1.println("Referee started the game...");
 		socketOut2.println("Referee started the game...");
 		board.display();

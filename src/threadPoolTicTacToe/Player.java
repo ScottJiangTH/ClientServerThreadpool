@@ -58,20 +58,20 @@ public class Player {
 	 */
 	public void makeMove() throws IOException {
 
-		int row = -1;
-		int col = -1;
-		socketOut.print(name + ", what row should your next " + mark + " be placed in?\n");
+		int row;
+		int col;
+		socketOut.println(name + ", what row should your next " + mark + " be placed in? Enter an integer: \n");
 		String rowString = socketIn.readLine();
 		row = Integer.parseInt(rowString);
-		socketOut.print(name + ", what column should your next " + mark + " be placed in?\n");
+		socketOut.println(name + ", what column should your next " + mark + " be placed in? Enter an integer: \n");
 		String colString = socketIn.readLine();
 		col = Integer.parseInt(colString);
 
 		if (row < 0 || col < 0 || row > 2 || col > 2) {
-			socketOut.println("Be serious, enter integer 0 - 2, let's try again\n");
+			socketOut.println("Be serious, enter integer 0 - 2, let's try again. Enter an integer: \n");
 			makeMove();
 		} else if (board.getMark(row, col) != ' ') {
-			socketOut.println("Cheating not allowed! Let's enter again\n");
+			socketOut.println("Cheating not allowed! Let's enter again. Enter an integer: \n");
 			makeMove();
 		} else {
 			board.addMark(row, col, mark);
