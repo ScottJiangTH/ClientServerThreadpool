@@ -1,4 +1,3 @@
-package serialization;
 
 /**
  * Started by M. Moussavi
@@ -11,14 +10,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class WriteRecord {
 
 	ObjectOutputStream objectOut = null;
 	MusicRecord record = null;
-	ArrayList<MusicRecord> arr = new ArrayList<MusicRecord>();
 	Scanner stdin = null;
 	Scanner textFileIn = null;
 
@@ -54,8 +51,7 @@ public class WriteRecord {
 			FileInputStream inputFile = new FileInputStream(textFileName);
 			textFileIn = new Scanner(inputFile);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("No such file.");
 		}
 	}
 
@@ -70,11 +66,9 @@ public class WriteRecord {
 			outputFile = new FileOutputStream(objectFileName);
 			objectOut = new ObjectOutputStream(outputFile);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("File writing failed, an error occurred.");
 		}
 	}
 
@@ -104,11 +98,11 @@ public class WriteRecord {
 			
 			try {
 				objectOut.writeObject(record);
-				objectOut.reset();
+				//objectOut.reset();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			record = new MusicRecord();
 		}
 
 	}

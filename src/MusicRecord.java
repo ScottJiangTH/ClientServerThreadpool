@@ -1,4 +1,3 @@
-package serialization;
 
 import java.io.Serializable;
 
@@ -7,6 +6,10 @@ import java.io.Serializable;
  *
  */
 class MusicRecord implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1;
 	private int year_recorded;
 	private String songName;
 	private String singerName;
