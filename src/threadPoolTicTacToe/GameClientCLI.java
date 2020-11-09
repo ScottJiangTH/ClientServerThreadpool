@@ -7,14 +7,14 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class GameClient {
+public class GameClientCLI {
 
 	private Socket aSocket;
 	private PrintWriter socketOut;
 	private BufferedReader socketIn;
 	private BufferedReader stdIn;
 
-	public GameClient(String serverName, int portNumber) {
+	public GameClientCLI(String serverName, int portNumber) {
 
 		try {
 			aSocket = new Socket(serverName, portNumber);
@@ -70,7 +70,7 @@ public class GameClient {
 	}
 
 	public static void main(String[] args) throws IOException {
-		GameClient aClient = new GameClient("localhost", 9999);
+		GameClientCLI aClient = new GameClientCLI("localhost", 9999);
 		aClient.prompt();
 	}
 
