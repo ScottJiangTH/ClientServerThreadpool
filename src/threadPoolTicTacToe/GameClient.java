@@ -44,9 +44,7 @@ public class GameClient {
 					userInput = stdIn.readLine();
 					socketOut.println(userInput);
 				}
-//				} else if (serverMessage.contains(":") && (serverMessage.contains("row") || serverMessage.contains("column"))) {
-//					userInput = stdIn.readLine();
-//					socketOut.println(userInput);
+
 				serverMessage = "";
 				userInput = "";
 
