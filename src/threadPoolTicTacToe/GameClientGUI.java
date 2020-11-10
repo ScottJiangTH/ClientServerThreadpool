@@ -5,8 +5,6 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,6 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class GameClientGUI extends JFrame implements ActionListener {
 
 	private Socket aSocket;
@@ -35,7 +35,7 @@ public class GameClientGUI extends JFrame implements ActionListener {
 	private JTextArea playerMarkDisplay;
 	private JTextField nameEntry;
 	private JButton r0c0, r0c1, r0c2, r1c0, r1c1, r1c2, r2c0, r2c1, r2c2;
-	private String serverMessage = "";
+	private static String serverMessage = "";
 
 	public GameClientGUI(String serverName, int portNumber) {
 		try {
@@ -47,54 +47,10 @@ public class GameClientGUI extends JFrame implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		app();
+		loadUI();
 	}
 
-	public void commWithServer() {
-		
-
-		do {
-			try {
-				do { // keep listening when message is empty
-					serverMessage = socketIn.readLine(); // read response form the socket
-				} while (serverMessage == "");
-
-				// cases other than displaying board
-				if (serverMessage.contains("X")) {
-					playerMarkDisplay.setText("X");
-				} else if (serverMessage.contains("O")) {
-					playerMarkDisplay.setText("O");
-				}
-				
-				if (serverMessage.contains("what row")) {
-					messageDisplay.append(nameEntry.getText() + ", please make your move.");
-					serverMessage = "";
-				} else if (serverMessage.contains("what column")) {
-					serverMessage = "";
-				} else if (!serverMessage.contains("-") && !serverMessage.contains("|")) {
-					messageDisplay.append(serverMessage + "\n");
-				}
-//				serverMessage = "";
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			} // reading the input from the user (i.e. the keyboard);
-
-		} while (!serverMessage.contains("THE GAME IS OVER"));
-		closeSocket();
-	}
-
-	private void closeSocket() {
-
-		try {
-			socketIn.close();
-			socketOut.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void app() {
+	private void loadUI() {
 		messageDisplay = new JTextArea("", 8, 12);
 		messageDisplay.setWrapStyleWord(true);
 		messageDisplay.setLineWrap(true);
@@ -117,80 +73,28 @@ public class GameClientGUI extends JFrame implements ActionListener {
 		r2c2 = new JButton("");
 
 		r0c0.addActionListener(this);
-		r0c0.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	             if (serverMessage.contains("row 0"))
-	            	 r0c0.setText(Character.toString(serverMessage.charAt(14)));
-	          }
-	       });
 		r0c1.addActionListener(this);
-		r0c1.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	             if (serverMessage.contains("row 0"))
-	            	 r0c1.setText(Character.toString(serverMessage.charAt(20)));
-	          }
-	       });
 		r0c2.addActionListener(this);
-		r0c2.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	             if (serverMessage.contains("row 0"))
-	            	 r0c2.setText(Character.toString(serverMessage.charAt(26)));
-	          }
-	       });
 		r1c0.addActionListener(this);
-		r1c0.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	             if (serverMessage.contains("row 1"))
-	            	 r1c0.setText(Character.toString(serverMessage.charAt(14)));
-	          }
-	       });
 		r1c1.addActionListener(this);
-		r1c1.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	             if (serverMessage.contains("row 1"))
-	            	 r1c1.setText(Character.toString(serverMessage.charAt(20)));
-	          }
-	       });
 		r1c2.addActionListener(this);
-		r1c2.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	             if (serverMessage.contains("row 1"))
-	            	 r1c2.setText(Character.toString(serverMessage.charAt(26)));
-	          }
-	       });
 		r2c0.addActionListener(this);
-		r2c0.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	             if (serverMessage.contains("row 2"))
-	            	 r2c0.setText(Character.toString(serverMessage.charAt(14)));
-	          }
-	       });
 		r2c1.addActionListener(this);
-		r2c1.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	             if (serverMessage.contains("row 2"))
-	            	 r2c1.setText(Character.toString(serverMessage.charAt(20)));
-	          }
-	       });
 		r2c2.addActionListener(this);
-		r2c2.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	             if (serverMessage.contains("row 2"))
-	            	 r2c2.setText(Character.toString(serverMessage.charAt(26)));
-	          }
-	       });
 
-		JPanel panelW = new JPanel();
-		panelW.setLayout(new GridLayout(3, 3));
-		panelW.add(r0c0);
-		panelW.add(r0c1);
-		panelW.add(r0c2);
-		panelW.add(r1c0);
-		panelW.add(r1c1);
-		panelW.add(r1c2);
-		panelW.add(r2c0);
-		panelW.add(r2c1);
-		panelW.add(r2c2);
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(3, 3));
+		buttonPanel.add(r0c0);
+		buttonPanel.add(r0c1);
+		buttonPanel.add(r0c2);
+		buttonPanel.add(r1c0);
+		buttonPanel.add(r1c1);
+		buttonPanel.add(r1c2);
+		buttonPanel.add(r2c0);
+		buttonPanel.add(r2c1);
+		buttonPanel.add(r2c2);
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 20));
 
 		JPanel panelS = new JPanel();
 		panelS.setLayout(new GridLayout(2, 2));
@@ -198,20 +102,25 @@ public class GameClientGUI extends JFrame implements ActionListener {
 		panelS.add(playerMarkDisplay);
 		panelS.add(nameLabel);
 		panelS.add(nameEntry);
+		panelS.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 600));
 
 		JPanel panelC = new JPanel();
-		panelC.setLayout(new GridLayout(2, 1));
+		panelC.setLayout(new GridLayout(2, 2));
 		panelC.add(messageLabel);
-		panelC.add(messageDisplay);
+		panelC.add(scrollPane);
+		panelC.setBorder(BorderFactory.createEmptyBorder(0, 50, 50, 50));
+
+		JPanel panelN = new JPanel();
+		panelN.setLayout(new GridLayout(1, 1));
 
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 
-		contentPane.add("West", panelW);
+		contentPane.add("West", buttonPanel);
 		contentPane.add("South", panelS);
 		contentPane.add("Center", panelC);
 
-		setSize(800, 600);
+		setSize(1200, 400);
 		setVisible(true);
 	}
 
@@ -223,48 +132,117 @@ public class GameClientGUI extends JFrame implements ActionListener {
 		} else if (e.getSource() == r0c0) {
 			socketOut.println("0");
 			socketOut.println("0");
-			r0c0.setText(playerMarkDisplay.getText());
+			if (r0c0.getText() == "")
+				r0c0.setText(playerMarkDisplay.getText());
 			messageDisplay.append("Mark set. Now wait for opponent's move.");
 		} else if (e.getSource() == r0c1) {
 			socketOut.println("0");
 			socketOut.println("1");
-			r0c1.setText(playerMarkDisplay.getText());
+			if (r0c1.getText() == "")
+				r0c1.setText(playerMarkDisplay.getText());
 			messageDisplay.append("Mark set. Now wait for opponent's move.");
 		} else if (e.getSource() == r0c2) {
 			socketOut.println("0");
 			socketOut.println("2");
-			r0c2.setText(playerMarkDisplay.getText());
+			if (r0c2.getText() == "")
+				r0c2.setText(playerMarkDisplay.getText());
 			messageDisplay.append("Mark set. Now wait for opponent's move.");
 		} else if (e.getSource() == r1c0) {
 			socketOut.println("1");
 			socketOut.println("0");
-			r1c0.setText(playerMarkDisplay.getText());
+			if (r1c0.getText() == "")
+				r1c0.setText(playerMarkDisplay.getText());
 			messageDisplay.append("Mark set. Now wait for opponent's move.");
 		} else if (e.getSource() == r1c1) {
 			socketOut.println("1");
 			socketOut.println("1");
-			r1c1.setText(playerMarkDisplay.getText());
+			if (r1c1.getText() == "")
+				r1c1.setText(playerMarkDisplay.getText());
 			messageDisplay.append("Mark set. Now wait for opponent's move.");
 		} else if (e.getSource() == r1c2) {
 			socketOut.println("1");
 			socketOut.println("2");
-			r1c2.setText(playerMarkDisplay.getText());
+			if (r1c2.getText() == "")
+				r1c2.setText(playerMarkDisplay.getText());
 			messageDisplay.append("Mark set. Now wait for opponent's move.");
 		} else if (e.getSource() == r2c0) {
 			socketOut.println("2");
 			socketOut.println("0");
-			r2c0.setText(playerMarkDisplay.getText());
+			if (r2c0.getText() == "")
+				r2c0.setText(playerMarkDisplay.getText());
 			messageDisplay.append("Mark set. Now wait for opponent's move.");
 		} else if (e.getSource() == r2c1) {
 			socketOut.println("2");
 			socketOut.println("1");
-			r2c1.setText(playerMarkDisplay.getText());
+			if (r2c1.getText() == "")
+				r2c1.setText(playerMarkDisplay.getText());
 			messageDisplay.append("Mark set. Now wait for opponent's move.");
 		} else if (e.getSource() == r2c2) {
 			socketOut.println("2");
 			socketOut.println("2");
-			r2c2.setText(playerMarkDisplay.getText());
+			if (r2c2.getText() != "")
+				r2c2.setText(playerMarkDisplay.getText());
 			messageDisplay.append("Mark set. Now wait for opponent's move.");
+		}
+	}
+
+	public void commWithServer() {
+
+		do {
+			try {
+				do { // keep listening when message is empty
+					serverMessage = socketIn.readLine(); // read response form the socket
+				} while (serverMessage == "");
+
+				if (serverMessage.contains("row 0")) {
+					System.out.println(serverMessage);
+					r0c0.setText(Character.toString(serverMessage.charAt(13)));
+					r0c1.setText(Character.toString(serverMessage.charAt(19)));
+					r0c2.setText(Character.toString(serverMessage.charAt(25)));
+				} else if (serverMessage.contains("row 1")) {
+					System.out.println(serverMessage);
+					r1c0.setText(Character.toString(serverMessage.charAt(13)));
+					r1c1.setText(Character.toString(serverMessage.charAt(19)));
+					r1c2.setText(Character.toString(serverMessage.charAt(25)));
+				} else if (serverMessage.contains("row 2")) {
+					System.out.println(serverMessage);
+					r2c0.setText(Character.toString(serverMessage.charAt(13)));
+					r2c1.setText(Character.toString(serverMessage.charAt(19)));
+					r2c2.setText(Character.toString(serverMessage.charAt(25)));
+				} 
+				
+				// cases other than displaying board
+				if (serverMessage.contains("X")) {
+					playerMarkDisplay.setText("X");
+				} else if (serverMessage.contains("O")) {
+					playerMarkDisplay.setText("O");
+				}
+
+				if (serverMessage.contains("what row")) {
+					messageDisplay.append(nameEntry.getText() + ", please make your move.");
+					serverMessage = "";
+				} else if (serverMessage.contains("what column")) {
+					serverMessage = "";
+				} else if (!serverMessage.contains("-") && !serverMessage.contains("|")) {
+					messageDisplay.append(serverMessage + "\n");
+				}
+				serverMessage = "";
+			} catch (IOException e) {
+				System.err.println("Client UI error: Failed to send/receive through socket.");
+			} // reading the input from the user (i.e. the keyboard);
+
+		} while (!serverMessage.contains("THE GAME IS OVER"));
+		closeSocket();
+	}
+
+	private void closeSocket() {
+
+		try {
+			aSocket.close();
+			socketIn.close();
+			socketOut.close();
+		} catch (IOException e) {
+			System.err.println("Client UI error: Failed to close socket.");
 		}
 	}
 
