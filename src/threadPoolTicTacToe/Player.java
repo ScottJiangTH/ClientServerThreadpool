@@ -1,7 +1,9 @@
 package threadPoolTicTacToe;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 /**
  * 
  * Provides a command line user interface to prompt current Player to enter cell

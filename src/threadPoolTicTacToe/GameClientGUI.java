@@ -22,6 +22,16 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
+/**
+ * 
+ * This class create Tic Tac Toe game client GUI and shared a GameServer with
+ * CLI version of this game.
+ * 
+ * @author Sonia Islam and Scott Tianhan Jiang
+ * @version 2.0
+ * @since Nov 8, 2020
+ *
+ */
 public class GameClientGUI extends JFrame implements ActionListener {
 
 	private Socket aSocket;
@@ -50,6 +60,9 @@ public class GameClientGUI extends JFrame implements ActionListener {
 		loadUI();
 	}
 
+	/**
+	 * Creates all swing components for GUI.
+	 */
 	private void loadUI() {
 		messageDisplay = new JTextArea("", 8, 12);
 		messageDisplay.setWrapStyleWord(true);
@@ -81,7 +94,6 @@ public class GameClientGUI extends JFrame implements ActionListener {
 		r2c0.addActionListener(this);
 		r2c1.addActionListener(this);
 		r2c2.addActionListener(this);
-
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(3, 3));
@@ -124,6 +136,9 @@ public class GameClientGUI extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
+	/**
+	 * Defines all actions when certain changes happen on GUI components.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == nameEntry) {
@@ -186,6 +201,10 @@ public class GameClientGUI extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * Send and receive strings from server through socket, and send/receive strings
+	 * to corresponding GUI components on both client side.
+	 */
 	public void commWithServer() {
 
 		do {
@@ -195,22 +214,19 @@ public class GameClientGUI extends JFrame implements ActionListener {
 				} while (serverMessage == "");
 
 				if (serverMessage.contains("row 0")) {
-					System.out.println(serverMessage);
 					r0c0.setText(Character.toString(serverMessage.charAt(13)));
 					r0c1.setText(Character.toString(serverMessage.charAt(19)));
 					r0c2.setText(Character.toString(serverMessage.charAt(25)));
 				} else if (serverMessage.contains("row 1")) {
-					System.out.println(serverMessage);
 					r1c0.setText(Character.toString(serverMessage.charAt(13)));
 					r1c1.setText(Character.toString(serverMessage.charAt(19)));
 					r1c2.setText(Character.toString(serverMessage.charAt(25)));
 				} else if (serverMessage.contains("row 2")) {
-					System.out.println(serverMessage);
 					r2c0.setText(Character.toString(serverMessage.charAt(13)));
 					r2c1.setText(Character.toString(serverMessage.charAt(19)));
 					r2c2.setText(Character.toString(serverMessage.charAt(25)));
-				} 
-				
+				}
+
 				// cases other than displaying board
 				if (serverMessage.contains("X")) {
 					playerMarkDisplay.setText("X");
@@ -235,6 +251,9 @@ public class GameClientGUI extends JFrame implements ActionListener {
 		closeSocket();
 	}
 
+	/**
+	 * Closes all sockets after certain conditions met.
+	 */
 	private void closeSocket() {
 
 		try {

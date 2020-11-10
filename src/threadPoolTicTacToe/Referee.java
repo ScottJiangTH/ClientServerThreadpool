@@ -1,11 +1,13 @@
 package threadPoolTicTacToe;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 /**
  * 
- * Initiates the game by displaying the board, sets opponent relationships and calls the 
- * play method for the X-Player who is always the first player.
+ * Initiates the game by displaying the board, sets opponent relationships and
+ * calls the play method for the X-Player who is always the first player.
  * 
  * @author Scott Tianhan Jiang
  * @version 2.0
@@ -23,8 +25,9 @@ public class Referee {
 	private BufferedReader socketIn2;
 
 	/**
-	 * Sets opponent of Player objects to each other, display Board object, and initiate the 
-	 * game from Player with mark X.
+	 * Sets opponent of Player objects to each other, display Board object, and
+	 * initiate the game from Player with mark X.
+	 * 
 	 * @throws IOException from play() method of Player class.
 	 */
 	public void runTheGame() throws IOException {
@@ -43,7 +46,9 @@ public class Referee {
 
 	/**
 	 * Sets the argument object to current Board object.
-	 * @param theBoard represents the argument, i.e. Board object passed from Game class.
+	 * 
+	 * @param theBoard represents the argument, i.e. Board object passed from Game
+	 *                 class.
 	 */
 	public void setBoard(Board theBoard) {
 		this.board = theBoard;
@@ -51,7 +56,9 @@ public class Referee {
 
 	/**
 	 * Sets the argument object to current oPlayer object.
-	 * @param oPlayer represents the argument, i.e. Player object passed from Game class.
+	 * 
+	 * @param oPlayer represents the argument, i.e. Player object passed from Game
+	 *                class.
 	 */
 	public void setoPlayer(Player oPlayer) {
 		this.oPlayer = oPlayer;
@@ -59,12 +66,22 @@ public class Referee {
 
 	/**
 	 * Sets the argument object to current xPlayer object.
-	 * @param xPlayer represents the argument, i.e. Player object passed from Game class.
+	 * 
+	 * @param xPlayer represents the argument, i.e. Player object passed from Game
+	 *                class.
 	 */
 	public void setxPlayer(Player xPlayer) {
 		this.xPlayer = xPlayer;
 	}
 
+	/**
+	 * Sets in and out sockets for both players.
+	 * 
+	 * @param socketOut1 the socket out for player X
+	 * @param socketIn1  the socket in for player X
+	 * @param socketOut2 the socket out for player O
+	 * @param socketIn2  the socket in for player O
+	 */
 	public void setSocket(PrintWriter socketOut1, BufferedReader socketIn1, PrintWriter socketOut2,
 			BufferedReader socketIn2) {
 		this.socketOut1 = socketOut1;
