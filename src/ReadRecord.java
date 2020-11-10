@@ -2,7 +2,7 @@
 /** 
  * Started by M. Moussavi
  * March 2015
- * Completed by: STUDENT(S) NAME
+ * Completed by: Sonia Islam and Scott Tianhan Jiang
  */
 
 import java.io.EOFException;
@@ -17,7 +17,6 @@ public class ReadRecord {
 	/**
 	 * opens an ObjectInputStream using a FileInputStream
 	 */
-
 	private void readObjectsFromFile(String name) {
 		MusicRecord record;
 
@@ -27,33 +26,31 @@ public class ReadRecord {
 			System.err.println("Error opening file.");
 		}
 
-		/*
+		/**
 		 * The following loop is supposed to use readObject method of ObjectInputSteam
 		 * to read a MusicRecord object from a binary file that contains several
 		 * records. Loop should terminate when an EOFException is thrown.
 		 */
-
 		try {
 			while (true) {
 				try {
 					record = (MusicRecord) input.readObject();
-					System.out.println(record.getYear() + " " + record.getSongName() + " " + record.getSingerName() + " " + record.getPurchasePrice());
+					System.out.println(record.getYear() + " " + record.getSongName() + " " + record.getSingerName()
+							+ " " + record.getPurchasePrice());
 				} catch (EOFException e) {
 					break;
 				}
 			} // END OF WHILE
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			//System.err.println("This casted class do not exist.");
+			System.err.println("This casted class do not exist.");
 		} catch (IOException e) {
-			e.printStackTrace();
-			//System.err.println("File do not exist or reading error.");;
+			System.err.println("File do not exist or reading error.");
 		}
 
-	} // END OF METHOD
+	}
 
 	public static void main(String[] args) {
 		ReadRecord d = new ReadRecord();
-		d.readObjectsFromFile("mySongs.ser");
+		d.readObjectsFromFile("allSongs.ser");
 	}
 }

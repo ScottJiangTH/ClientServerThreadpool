@@ -2,7 +2,7 @@
 /**
  * Started by M. Moussavi
  * March 2015
- * Completed by: STUDENT(S) NAME
+ * Completed by: Sonia Islam and Scott Tianhan Jiang
  */
 
 import java.io.FileInputStream;
