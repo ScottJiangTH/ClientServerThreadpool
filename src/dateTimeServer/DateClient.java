@@ -5,6 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+/**
+ * This class implements a client server which connects to the date server through a socket. Depending on the 
+ * client's selection, this client can receive DATE or TIME from the date server.
+ * 
+ * @author Sonia Islam and Scott Tianhan Jiang
+ *
+ */
 
 public class DateClient {
 	private PrintWriter socketOut;
@@ -12,9 +19,14 @@ public class DateClient {
 	private BufferedReader stdIn;
 	private BufferedReader socketIn;
 
+	/**
+	 * This constructor creates a socket and a port to connect to the date server through that socket.
+	 * @param serverName -is the server that the client wants to connect
+	 * @param portNumber -is the specific way through which the socket is created to communicate between them
+	 */
 	public DateClient(String serverName, int portNumber) {
 		try {
-			palinSocket = new Socket(serverName, portNumber);
+			palinSocket = new Socket(serverName, portNumber); //here, the server name is "dateTimeServer" and port number is 9090.
 			stdIn = new BufferedReader(new InputStreamReader(System.in));
 			socketIn = new BufferedReader(new InputStreamReader(
 					palinSocket.getInputStream()));
@@ -23,7 +35,11 @@ public class DateClient {
 			System.err.println(e.getStackTrace());
 		}
 	}
-
+	
+	/**
+	 * This function is implemented to communicate and get response from the date server with an IOException
+	 * to avoid the program being crashed for any inappropriate input.
+	 */
 	public void communicate()  {
 
 		String line = "";
@@ -33,7 +49,7 @@ public class DateClient {
 			try {
 				System.out.println("Please select an option (DATE/TIME)");
 				line = stdIn.readLine();
-				if (!line.equals("QUIT")){
+				if (!line.equals("QUIT")){ // until the client input "QUIT" program will run
 					System.out.println(line);
 					socketOut.println(line);
 					response = socketIn.readLine();
@@ -47,7 +63,7 @@ public class DateClient {
 			}
 		}
 		try {
-			stdIn.close();
+			stdIn.close(); //closes the server after being used
 			socketIn.close();
 			socketOut.close();
 		} catch (IOException e) {
