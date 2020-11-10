@@ -8,7 +8,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+/**
+ * This class implements a server to create a new game between two clients (players) when they request for 
+ * a connection to pairing up and also to run the game when the connection request gets accepted through a socket.
+ * 
+ * @author Sonia Islam and Scott Tianhan Jiang
+ *
+ */
 public class GameServer {
 
 	private Socket socket1, socket2;
@@ -20,17 +26,26 @@ public class GameServer {
 	private int maxPair;
 	private static int clientPairCount = 0;
 	private static int clientCount = 0;
-
+	
+	/**
+	 * This constructor creates a socket through a specific port of a local machine and also creates a
+	 * threads pool considering the maximum number of requested clients (player) pair.
+	 * 
+	 * @param maxPair -maximum number of requested client (player) pair
+	 */
 	public GameServer(int maxPair) {
 		this.maxPair = maxPair;
 		try {
-			serverSocket = new ServerSocket(9999);
-			pool = Executors.newFixedThreadPool(maxPair);
+			serverSocket = new ServerSocket(9999); //new socket has been created through 9999 port of localhost.
+			pool = Executors.newFixedThreadPool(maxPair);// creates thread pool of working threads
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * This method sets and starts the new game between the players through sockets.
+	 */
 	public void runServer() {
 
 		try {
@@ -70,6 +85,7 @@ public class GameServer {
 		System.out.println(socket1);
 		System.out.println(socket2);
 		try {
+			//closes the server after being used
 			socketIn1.close();
 			socketOut1.close();
 			socketIn2.close();
