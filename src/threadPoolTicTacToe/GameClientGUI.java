@@ -266,7 +266,7 @@ public class GameClientGUI extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		GameClientGUI aClient = new GameClientGUI("localhost", 9999);
+		GameClientGUI aClient = new GameClientGUI("192.168.1.94", 9999);
 		aClient.commWithServer();
 	}
 
